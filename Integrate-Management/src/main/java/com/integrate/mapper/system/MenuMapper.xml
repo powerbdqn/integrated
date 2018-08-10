@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integrate.mapper.system.MenuMapper">
+  <resultMap id="BaseResultMap" type="com.integrate.pojo.system.Menu">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="href" jdbcType="VARCHAR" property="href" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="priority" jdbcType="INTEGER" property="priority" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="prohibition" jdbcType="VARCHAR" property="prohibition" />
+    <result column="create_user" jdbcType="VARCHAR" property="createUser" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
+    <result column="mdify_time" jdbcType="TIMESTAMP" property="mdifyTime" />
+    <result column="pid" jdbcType="INTEGER" property="pid" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, title, href, description, priority, status, prohibition, create_user, create_time, 
+    modify_user, mdify_time, pid
+  </sql>
+    
+  <select id="listMenus" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where status = '1'
+    limit #{page,jdbcType=INTEGER},#{rows,jdbcType=INTEGER}
+  </select>
+  
+   <select id="getMenusByPid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where  pid = #{pid,jdbcType=INTEGER}
+  </select>
+  
+  
+  <select id="findParentMenusByPid" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where  pid is null
+    and status = '1'
+    and prohibition = '1'
+  </select>
+  
+  <select id="getCount" resultType="java.lang.Integer">
+  	select count(0)
+  	from menu
+  	where status = '1'
+  </select>
+  
+  
+  <select id="findMenusByPid" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from menu
+    where  pid is null
+    and status = '1'
+	and prohibition = '1'
+  </select>
+  
+   <select id="findMenuByPid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    SELECT * FROM menu WHERE pid =(SELECT id FROM menu WHERE pid IS NULL AND id = #{pid,jdbcType=INTEGER})
+  	and status = '1'
+  	and prohibition = '1'
+  </select>
+  
+  <select id="getMenusByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	SELECT m.* 
+  	FROM menu m, role r,USER u,user_role ur,role_menu rm 
+	WHERE m.ID = rm.menu_id 
+	AND r.ID = rm.ROLE_ID 
+	AND r.ID = ur.ROLE_ID 
+	AND u.ID = ur.USER_ID 
+	AND u.ID = #{id,jdbcType=INTEGER}
+	and m.status = '1'
+	and m.prohibition = '1'
+  </select>
+  
+  <select id="getParentMenuNameByPid" parameterType="java.lang.Integer" resultType="java.lang.String">
+  	SELECT title FROM menu WHERE pid IS NULL AND id = #{pid,jdbcType=INTEGER}
+  	and status = '1' and prohibition = '1'
+  </select>
+  
+  
+  <insert id="saveMenu" parameterType="com.integrate.pojo.system.Menu">
+    insert into menu 
+      (id, title, href, 
+      description, priority, status, 
+      prohibition, create_user, create_time, 
+      modify_user, mdify_time, pid
+      )
+    values 
+     (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{href,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{priority,jdbcType=INTEGER}, #{status,jdbcType=VARCHAR}, 
+      #{prohibition,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyUser,jdbcType=VARCHAR}, #{mdifyTime,jdbcType=TIMESTAMP}, #{pid,jdbcType=INTEGER}
+      )
+  </insert>
+  
+  <select id="findMenuById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+	select 
+    	<include refid="Base_Column_List" />
+    from menu
+    where id = #{id,jdbcType=INTEGER}
+    and status = '1'
+  </select>
+   <update id="updateMenu" parameterType="com.integrate.pojo.system.Menu">
+    update menu
+    <set>
+      <if test="title != null">
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="href != null">
+        href = #{href,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null">
+        priority = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="prohibition != null">
+        prohibition = #{prohibition,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUser != null">
+        modify_user = #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="mdifyTime != null">
+        mdify_time = #{mdifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pid != null">
+        pid = #{pid,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <select id="listMenuByStatus" resultMap="BaseResultMap">
+   select 
+   <include refid="Base_Column_List" />
+   from menu
+   where status = '0'
+  </select>
+  
+     <update id="updateMenuStatusAndProhibition" parameterType="java.util.HashMap">
+    update menu
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="prohibition != null">
+        prohibition = #{prohibition,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyUser != null">
+        modify_user = #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="mdifyTime != null">
+        mdify_time = #{mdifyTime,jdbcType=TIMESTAMP},
+       </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  <delete id="deleteMenuById" parameterType="java.util.HashMap">
+  	delete from menu
+  	where id = #{id,jdbcType=INTEGER}
+  </delete>
+  
+</mapper>

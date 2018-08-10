@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.integrate.mapper.question.QuestionMapper">
+  <resultMap id="BaseResultMap" type="com.integrate.pojo.question.Question">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="content" jdbcType="VARCHAR" property="content" />
+    <result column="prohibition" jdbcType="VARCHAR" property="prohibition" />
+    <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="answer" jdbcType="VARCHAR" property="answer" />
+    <result column="analysis" jdbcType="VARCHAR" property="analysis" />
+    <result column="questiontypes_id" jdbcType="INTEGER" property="questiontypesId" />
+    <result column="stage_id" jdbcType="INTEGER" property="stageId" />
+    <result column="book_id" jdbcType="INTEGER" property="bookId" />
+    <result column="chapter_id" jdbcType="INTEGER" property="chapterId" />
+    <result column="weight" jdbcType="VARCHAR" property="weight" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="create_by" jdbcType="VARCHAR" property="createBy" />
+    <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="modify_by" jdbcType="VARCHAR" property="modifyBy" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, name, content, prohibition, status, answer, analysis, questiontypes_id, stage_id, 
+    book_id, chapter_id, weight, create_time, create_by, modify_time, modify_by
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from question
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from question
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.integrate.pojo.question.Question">
+    insert into question (id, name, content, 
+      prohibition, status, answer, 
+      analysis, questiontypes_id, stage_id, 
+      book_id, chapter_id, weight, 
+      create_time, create_by, modify_time, 
+      modify_by)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{prohibition,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{answer,jdbcType=VARCHAR}, 
+      #{analysis,jdbcType=VARCHAR}, #{questiontypesId,jdbcType=INTEGER}, #{stageId,jdbcType=INTEGER}, 
+      #{bookId,jdbcType=INTEGER}, #{chapterId,jdbcType=INTEGER}, #{weight,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, 
+      #{modifyBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.integrate.pojo.question.Question">
+    insert into question
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="content != null">
+        content,
+      </if>
+      <if test="prohibition != null">
+        prohibition,
+      </if>
+      <if test="status != null">
+        status,
+      </if>
+      <if test="answer != null">
+        answer,
+      </if>
+      <if test="analysis != null">
+        analysis,
+      </if>
+      <if test="questiontypesId != null">
+        questiontypes_id,
+      </if>
+      <if test="stageId != null">
+        stage_id,
+      </if>
+      <if test="bookId != null">
+        book_id,
+      </if>
+      <if test="chapterId != null">
+        chapter_id,
+      </if>
+      <if test="weight != null">
+        weight,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+      <if test="createBy != null">
+        create_by,
+      </if>
+      <if test="modifyTime != null">
+        modify_time,
+      </if>
+      <if test="modifyBy != null">
+        modify_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="prohibition != null">
+        #{prohibition,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="analysis != null">
+        #{analysis,jdbcType=VARCHAR},
+      </if>
+      <if test="questiontypesId != null">
+        #{questiontypesId,jdbcType=INTEGER},
+      </if>
+      <if test="stageId != null">
+        #{stageId,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null">
+        #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="chapterId != null">
+        #{chapterId,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.integrate.pojo.question.Question">
+    update question
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null">
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="prohibition != null">
+        prohibition = #{prohibition,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="answer != null">
+        answer = #{answer,jdbcType=VARCHAR},
+      </if>
+      <if test="analysis != null">
+        analysis = #{analysis,jdbcType=VARCHAR},
+      </if>
+      <if test="questiontypesId != null">
+        questiontypes_id = #{questiontypesId,jdbcType=INTEGER},
+      </if>
+      <if test="stageId != null">
+        stage_id = #{stageId,jdbcType=INTEGER},
+      </if>
+      <if test="bookId != null">
+        book_id = #{bookId,jdbcType=INTEGER},
+      </if>
+      <if test="chapterId != null">
+        chapter_id = #{chapterId,jdbcType=INTEGER},
+      </if>
+      <if test="weight != null">
+        weight = #{weight,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null">
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="modifyTime != null">
+        modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyBy != null">
+        modify_by = #{modifyBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.integrate.pojo.question.Question">
+    update question
+    set name = #{name,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
+      prohibition = #{prohibition,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      answer = #{answer,jdbcType=VARCHAR},
+      analysis = #{analysis,jdbcType=VARCHAR},
+      questiontypes_id = #{questiontypesId,jdbcType=INTEGER},
+      stage_id = #{stageId,jdbcType=INTEGER},
+      book_id = #{bookId,jdbcType=INTEGER},
+      chapter_id = #{chapterId,jdbcType=INTEGER},
+      weight = #{weight,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      modify_by = #{modifyBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+   <select id="listQuestions" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from question
+    where status = #{status,jdbcType=VARCHAR}
+    limit #{page},#{limit}
+  </select>
+  
+  <select id="getCountByQuestion" resultType="java.lang.Integer">
+  	select count(0)
+  	from question 
+  	where status = '30'
+  </select>
+  
+  
+  <update id="updateStatusById">
+    update question
+    <set>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR}
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
