@@ -17,6 +17,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript" src="<%=basePath%>static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>static/ztree/jquery.ztree.all-3.5.js" ></script>
 	<script type="text/javascript" src="<%=basePath%>static/js/tool.js"></script>
+	<script type="text/javascript" src="<%=basePath%>static/js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#grid").datagrid({
@@ -123,15 +124,13 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		function update(index){
 			var row = $("#grid").datagrid('getData').rows[index];
 			var id = row.id;
-			console.log(row);
-			//$("#selectComb").combbox('setValue',row.id);
 			$('#menuWin').dialog({    
 			    title: '修改',    
 			    width: 600,    
 			    height: 450,    
 			    closed: false,    
 			    cache: false,
-			    data:{id:id},
+			    data:{"id":id},
 			    href: '${pageContext.request.contextPath}/menu/show.do?id='+id+'&x='+new Date().getTime(),  
 			    modal: true,
 			    buttons:[{

@@ -98,7 +98,16 @@ public class MenuController {
 		return "system/menu/menu";
 	}
 
-	/**跳转添加菜单表单页面*/
+	/**
+	 * 
+	* @Title: toAddMenuView 
+	* @Description:  新增时直接跳转页面    修改时传入id,将查询的数据回显到form表单中
+	* @author 韩志彬   
+	* @date 2018年8月11日 上午12:48:32 
+	* @version V1.0 
+	* @param id
+	* @return
+	 */
 	@RequestMapping("/menu/show.do")
 	@ResponseBody
 	public ModelAndView toAddMenuView(Integer id) {
@@ -113,17 +122,6 @@ public class MenuController {
 	}
 
 	
-/*	@RequestMapping("/menu/show_menu.do")
-	@ResponseBody
-	public ModelAndView toAddMenuView(Integer id) {
-		
-		List<Menu> list = new ArrayList<>();
-		if(id != null) {
-			Menu menu = menuService.findMenuById(id);
-			list.add(menu);
-		}
-		return list;
-	}*/
 	/**
 	 * 
 	* @Title: listMenus 
@@ -201,7 +199,6 @@ public class MenuController {
 					map.put("msg", "保存成功");
 				} catch (Exception e) {
 					map.put("msg", "保存失败");
-					e.printStackTrace();
 				}
 			}
 		return map;
@@ -244,7 +241,6 @@ public class MenuController {
 				map.put("msg", "删除成功");
 				map.put("status", true);
 			} catch (Exception e) {
-				e.printStackTrace();
 				map.put("msg", "删除失败");
 				map.put("status", false);
 			}
@@ -294,7 +290,6 @@ public class MenuController {
 				map.put("msg", "修改成功");
 				map.put("status", true);
 			} catch (Exception e) {
-				e.printStackTrace();
 				map.put("msg", "修改失败");
 				map.put("status", false);
 			}
@@ -350,7 +345,6 @@ public class MenuController {
 			retMap.put("msg", "修改成功");
 		} catch (Exception e) {
 			retMap.put("msg", "修改失败");
-			e.printStackTrace();
 		}
 		return retMap;
 	}
@@ -379,8 +373,25 @@ public class MenuController {
 			retMap.put("msg", "删除成功");
 		} catch (Exception e) {
 			retMap.put("msg", "删除失败");
-			e.printStackTrace();
 		}
 		return retMap;
 	}
+	
+	@RequestMapping("/menu/menu_update.do")
+	@ResponseBody
+	public Map<String,Object> updateMenu(Menu menu,Integer id){
+		Map<String,Object> map = new HashMap<String,Object>();
+		 try {
+			 User user = (User) SecurityUtils.getSubject().getPrincipal();
+			 menu.setId(id);
+			 menu.setMdifyTime(new Date());
+			 menu.setModifyUser(user.getNickName());
+			menuService.updateMenu(menu);
+			map.put("msg", "修改成功");
+		 } catch (Exception e) {
+			 map.put("msg", "修改失败");
+		}
+		return map;
+	}
+	
 }

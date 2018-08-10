@@ -36,9 +36,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			<label>父项菜单</label>
 				<input id="selectComb" name="parentMenu.id" value="${menu.pid}" class="easyui-combobox" 
 					data-options="valueField:'id',textField:'title',url:'${pageContext.request.contextPath}/menu/parent_menu_list.do'" /><br/>
-			<label>描述</label>	
 		</c:if>
-		<textarea name="description" value="${menu.description}" rows="4" cols="60" class="easyui-validatebox" data-options="required:true" style="margin-left:24px;margin-top:10px" ></textarea><br/>
+		<label>描述</label>	
+		<textarea name="description"  rows="4" cols="60" class="easyui-validatebox" data-options="required:true" style="margin-left:24px;margin-top:10px" >${menu.description}</textarea><br/>
 	</form>
 </body>
 
