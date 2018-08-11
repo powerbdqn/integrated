@@ -19,7 +19,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<link rel="stylesheet" href="<%= basePath %>static/css/login.css" />
 		<link rel="stylesheet" href="<%=basePath %>/static/css/main.css" />
 		<%-- <script src="<%= basePath %>static/js/highcharts.js"></script> --%>
-	 <script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+	 	<script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
         <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
         <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
 	</head>
@@ -27,7 +27,8 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<body>
 		<div class="admin-main">
 			<blockquote class="layui-elem-quote">
-			 <div id="container" style="min-width:400px;height:400px"></div>
+			 <!-- <div id="container" style="min-width:400px;height:400px"></div> -->
+			  <div id="container" style="min-width:400px;height:400px"></div>
 			</blockquote>
 		<hr class="layui-bg-green">
 			<fieldset class="layui-elem-field">
@@ -188,56 +189,59 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		</div>
 		
 		<script type="text/javascript">
-		// Build the chart
-		Highcharts.chart('container', {
-				chart: {
-						plotBackgroundColor: null,
-						plotBorderWidth: null,
-						plotShadow: false,
-						type: 'pie'
-				},
-				title: {
-						text: '2018 年浏览器市场份额'
-				},
-				tooltip: {
-						pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-				},
-				plotOptions: {
-						pie: {
-								allowPointSelect: true,
-								cursor: 'pointer',
-								dataLabels: {
-										enabled: false
-								},
-								showInLegend: true
-						}
-				},
-				series: [{
-						name: 'Brands',
-						colorByPoint: true,
-						data: [{
-								name: 'Chrome',
-								y: 61.41,
-								sliced: true,
-								selected: true
-						}, {
-								name: 'Internet Explorer',
-								y: 11.84
-						}, {
-								name: 'Firefox',
-								y: 10.85
-						}, {
-								name: 'Edge',
-								y: 4.67
-						}, {
-								name: 'Safari',
-								y: 4.18
-						}, {
-								name: 'Other',
-								y: 7.05
-						}]
-				}]
-		});
+	
+		
+		var chart = Highcharts.chart('container', {
+    chart: {
+        type: 'line'
+    },
+    title: {
+        text: '班级月度数据折线图'
+    },
+    subtitle: {
+        text: ''
+    },
+    xAxis: {
+        categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+    },
+    yAxis: {
+        title: {
+            text: '班级评比'
+        }
+    },
+    plotOptions: {
+        line: {
+            dataLabels: {
+                // 开启数据标签
+                enabled: true          
+            },
+            // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+            enableMouseTracking: false
+        }
+    },
+    series: [{
+        name: 'S2T75班',
+        data: [7.0, 6.9, 9.5, 14.5, 1, 2.5, 5.2, 6.5, 2.3, 1.3, 13, 0.6]
+    }, {
+        name: 'S2T76班',
+        data: [1, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0]
+    }, {
+        name: 'S2T77班',
+        data: [3.9, 4.2, 5.4, 2.5, 1.9, 1.2, 7.0, 6.6, 11.2, 14.3, 1.6, 7.8]
+    }, {
+        name: 'S2T78班',
+        data: [3.9, 4.2, 2.7, 3.5, 1.9, 13.2, 11.0, 13.6, 11.2, 5.3, 1.6, 4.8]
+    }, {
+        name: 'S2T79班',
+        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+    }, {
+        name: 'Y2T08班',
+        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
+    }, {
+        name: 'Y2T09班',
+        data: [3.1, 0.2, 4.7, 3.5, 1.9, 5.2, 7.0, 11.6, 13.2, 11.3, 16.6, 24.8]
+    }]
+});
 		</script>
 	</body>
 </html>

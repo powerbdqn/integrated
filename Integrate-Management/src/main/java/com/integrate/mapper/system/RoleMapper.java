@@ -12,5 +12,9 @@ public interface RoleMapper {
 
 	Role getRoleById(Integer id);
 
-	void saveRole(Role role);
+	int saveRole(Role role);
+
+	Integer saveRoleAndBackPermaryKey(Role role);
+
+	int updateRole(Role role);
 }

@@ -16,8 +16,141 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript" src="<%=basePath%>static/easyui/jquery-1.8.3.js"></script>
 	<script type="text/javascript" src="<%=basePath%>static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>static/ztree/jquery.ztree.all-3.5.js" ></script>
+	<script type="text/javascript" src="<%=basePath%>static/js/tool.js"></script>
+	<script type="text/javascript" src="<%=basePath%>static/plugins/layer/layer.js"></script>
+	<script type="text/javascript">
+	$(function(){
+		// 授权树初始化
+		var setting = {
+			data : {
+				key : {
+					name : "title"
+				},
+				simpleData : {
+					enable : true
+				}
+			},
+			check : {
+				enable : true,
+			}
+		};
+		
+		$.ajax({
+			url : '${pageContext.request.contextPath}/menu/list_menu_status.do',
+			type : 'POST',
+			dataType : 'text',
+			success : function(data) {
+				var zNodes = eval("(" + data + ")");
+				$.fn.zTree.init($("#menuTree"), setting, zNodes);
+			},
+			error : function(msg) {
+				layer.msg('树加载异常!');
+			}
+		});
+		
+		// 页面加载后， 获取所有权限数据，生成checkbox列表
+		$.get("${pageContext.request.contextPath}/permission/permission_list.do", function(data){
+			// 生成checkbox列表 
+			$(data).each(function(){
+				var checkbox = $("<input type='checkbox' name='permissionIds' />");
+				checkbox.val(this.id);
+				$("#permissionTD").append(checkbox);
+				$("#permissionTD").append(this.name);
+			});
+		});
+		
+		
+		// 点击保存
+		$('#save').click(function(){
+			// 获取ztree勾选节点集合 
+			var treeObj = $.fn.zTree.getZTreeObj("menuTree");
+			var nodes = treeObj.getCheckedNodes(true);
+			// 获取所有节点id 
+			var array = new Array();
+			for(var i=0 ; i< nodes.length ; i++){
+				array.push(nodes[i].id);
+			}
+			var menuIds = array.join(",");
+			$("input[name='menuIds']").val(menuIds);
+			
+			// 提交form
+			if($("#roleForm").form('validate')){
+				$("#roleForm").form('submit',{
+					url:'${pageContext.request.contextPath}/role/role_save.do?x='+new Date().getTime(),
+					onSelect:function(){
+						alert("asd");
+					},
+					success:function(data){
+						$("#roleForm").form("clear");
+						$("#roleTable").datagrid('reload');
+						window.location.href="${pageContext.request.contextPath}/role/toRole.do?x="+new Date().getTime();
+						console.log(data);
+						layer.msg(data.message);
+					}
+				});
+			}else{
+				layer.msg("请补全信息");
+				return;
+			}
+		});
+		
+		 var id = $("#roleId").val();
+			$.ajax({
+				type:'POST',
+				dataType:'json',
+				url:'${pageContext.request.contextPath}/permission/show.do?id='+id,
+				success:function(data){
+					alert(data);
+				}
+			}); 
+		
+	}); 
+</script>
 </head>
 <body class="easyui-layout">
-	123
-</body>
+		<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
+			<div class="datagrid-toolbar">
+				<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
+			</div>
+		</div>
+		<div region="center" style="overflow:auto;padding:5px;" border="false">
+			<form id="roleForm" method="post" action="${pageContext.request.contextPath}/role/role_save.do">
+				<table class="table-edit" width="80%" align="center">
+					<tr class="title">
+						<td colspan="2">角色信息</td>
+					</tr>
+					<tr>
+						<td>名称</td>
+						<td>
+							<input id="roleId" type="hidden" name="id" value="${role.id}"/>
+							<input type="text" name="name" value="${role.name}" class="easyui-validatebox" data-options="required:true" />
+						</td>
+					</tr>
+					<tr>
+						<td>关键字</td>
+						<td>
+							<input type="text" name="keyword" value="${role.keyword}" class="easyui-validatebox" data-options="required:true" />
+						</td>
+					</tr>
+					<tr>
+						<td>描述</td>
+						<td>
+							<textarea name="description" rows="4" cols="60">${role.description}</textarea>
+						</td>
+					</tr>
+					<tr>
+						<td>权限选择</td>
+						<td id="permissionTD"></td>
+					</tr>
+					<tr>
+						<td>菜单授权</td>
+						<td>
+							<input type="hidden" name="menuIds"/>
+							<ul id="menuTree" class="ztree"></ul>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
+	</body>
 </html>

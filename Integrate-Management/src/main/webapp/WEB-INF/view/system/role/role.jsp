@@ -17,6 +17,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript" src="<%=basePath%>static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>static/ztree/jquery.ztree.all-3.5.js" ></script>
 	<script type="text/javascript" src="<%=basePath%>static/js/tool.js"></script>
+	<script type="text/javascript" src="<%=basePath%>static/plugins/layer/layer.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#roleTable").datagrid({
@@ -66,57 +67,74 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			});
 		});
 		
-		function showAddRoleWindow(){
-			//window.location.href='${pageContext.request.contextPath}/role/toAddRoleView.do?x='+new Date().getTime();
+	 	function update(index){
+			var row = $("#roleTable").datagrid("getData").rows[index];
+			var id = row.id;
+			window.location.href='${pageContext.request.contextPath}/role/show.do?id='+id+'&x='+new Date().getTime();
+	 	}	
+	 	
+	 	
+		function showRolePage(){
 			$('#roleForm').form("clear");
-			$('#roleWindow').dialog({    
-			    title: '新增',    
-			    width: 600,    
-			    height: 450,    
-			    closed: false,    
-			    cache: false,    
-			    href: '${pageContext.request.contextPath}/role/show.do?x='+new Date().getTime(),  
-			    modal: true,
-			    buttons:[{
-					text:'保存',
-					iconCls:'icon-save',
-					handler:function(){
-						$('#roleForm').form('submit', {    
-						    url:'${pageContext.request.contextPath}/role/role_save.do?x='+new Date().getTime(),   
-						    onSubmit: function(){    
-						    	var isValid = $(this).form('validate');
-								if (!isValid){
-									layer.msg('请补全信息。。。');
-								}
-								return isValid;	// 返回false终止表单提交
-						    },    
-						    success:function(data){ 
-						    	console.log(data);
-						    	$('#roleForm').form("clear");
-								$('#roleWindow').dialog("close");
-								$("#roleTable").datagrid("reload");
-						    	var str = eval('(' + data + ')'); 
-						    	layer.msg(str.message);
-						    }
-						});
-					}
-				},{
-					text:'关闭',
-					iconCls:'icon-cancel',
-					handler:function(){
-						$('#roleForm').form("clear");
-						$('#roleWindow').dialog("close");
-						$("#roleTable").datagrid("reload"); 
-					}
-				}]
-			});  
+			window.location.href='${pageContext.request.contextPath}/role/show.do?x='+new Date().getTime();
+		} 
+		
+		
+		function operate(index){
+			var row = $("#roleTable").datagrid('getData').rows[index];
+			var id = row.id;
+			var prohibition = row.prohibition;
+			if(row.status == "0"){
+				$("#roleTable").datagrid("reload");
+				layer.msg("这条记录无法操作");
+				return;
+			}
+			$.messager.confirm("友情提示","你确定要操作该条记录吗?",function(r){
+				if(r){
+					$.ajax({
+						type:'POST',
+						dataType:'json',
+						url:"${pageContext.request.contextPath}/role/role_update_operate.do?x="+new Date().getTime(),
+						data:{id:id,prohibition:prohibition},
+						success:function(data){
+							$("#roleTable").datagrid("reload");
+							layer.msg(data.message);
+						}
+					});
+				}
+			});
 		}
 		
+		function del(index){
+			var row = $("#roleTable").datagrid('getData').rows[index];
+			var id = row.id;
+			
+			if(row.status == "0"){
+				$("#roleTable").datagrid("reload");
+				layer.msg("这条记录无法删除");
+				return;
+			}
+			
+			$.messager.confirm("友情提示","你确定要逻辑删除吗?",function(r){
+				if(r){
+					$.ajax({
+						type:'POST',
+						dataType:'json',
+						url:"${pageContext.request.contextPath}/role/role_del.do?x="+new Date().getTime(),
+						data:{id:id},
+						success:function(data){
+							$("#roleTable").datagrid("reload");
+							layer.msg(data.message);
+						}
+					});
+				}
+			});
+		}
 	</script>
 </head>
 <body>
 	<div id="tb" style="padding:5px;">
-		<a onclick="showAddRoleWindow()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
+		<a onclick="showRolePage()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
 		<a onclick="remove()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">恢复/删除</a>
 	</div>
 	

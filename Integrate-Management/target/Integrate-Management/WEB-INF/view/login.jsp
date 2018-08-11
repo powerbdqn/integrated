@@ -25,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</header>			
 			<div class="beg-login-main">
 			
-				<form action="user_login.do" class="layui-form" method="post">
+				<form action="${pageContext.request.contextPath}/user_login.do" class="layui-form" method="post">
 					<div class="layui-form-item">
 						<label class="beg-login-icon">
                         <i class="layui-icon">&#xe612;</i>
@@ -69,7 +69,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<script>
 		layui.use('form', function() {
 			var form = layui.form;
-
 			//监听提交
 			form.on('submit(*)', function(data) {
 				return false;

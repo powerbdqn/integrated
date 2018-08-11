@@ -16,6 +16,10 @@ public interface RoleService {
 
 	ModelAndView showRoleWindow(Integer id);
 
-	Map<String, Object> saveRole(Role role);
+	Map<String, Object> saveRole(Role role, String[] permissionIds, String menuIds);
+
+	Map<String, Object> updateOperate(Integer id, String prohibition);
+
+	Map<String, Object> updateRoleByStatus(Integer id);
 
 }

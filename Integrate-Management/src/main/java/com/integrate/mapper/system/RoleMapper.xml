@@ -29,6 +29,7 @@
     <include refid="Base_Column_List" />
     from role
     where status = '1'
+ 	and id = #{id,jdbcType=INTEGER}
   </select>
   
   <select id="getRoleListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -49,5 +50,52 @@
       #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyUser,jdbcType=VARCHAR}, 
       #{mdifyTime,jdbcType=TIMESTAMP})
   </insert>
+  
+ 
+  <insert id="saveRoleAndBackPermaryKey" keyProperty="id" useGeneratedKeys="true"  parameterType="com.integrate.pojo.system.Role">
+    insert into role (id, name, keyword, 
+      description, prohibition, status, 
+      create_user, create_time, modify_user, 
+      mdify_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keyword,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{prohibition,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyUser,jdbcType=VARCHAR}, 
+      #{mdifyTime,jdbcType=TIMESTAMP})
+  </insert> 
+  
+  <update id="updateRole" parameterType="com.integrate.pojo.system.Role">
+    update role
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null">
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="prohibition != null">
+        prohibition = #{prohibition,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUser != null">
+        modify_user = #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="mdifyTime != null">
+        mdify_time = #{mdifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
   
 </mapper>

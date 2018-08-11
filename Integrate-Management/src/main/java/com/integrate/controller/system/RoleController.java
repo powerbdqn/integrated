@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.integrate.pojo.system.Role;
-import com.integrate.pojo.system.Role;
 import com.integrate.service.system.RoleService;
 
 @Controller
@@ -44,7 +43,20 @@ public class RoleController {
 	
 	@RequestMapping("/role_save.do")
 	@ResponseBody
-	public Map<String,Object> saveRole(Role role){
-		return roleService.saveRole(role);
+	public Map<String,Object> saveRole(Role role,String[] permissionIds,String menuIds){
+		return roleService.saveRole(role,permissionIds,menuIds);
 	}
+	
+	@RequestMapping("/role_update_operate.do")
+	@ResponseBody
+	public Map<String,Object> updateOperate(Integer id ,String prohibition){
+		return roleService.updateOperate(id,prohibition);
+	}
+	
+	@RequestMapping("/role_del.do")
+	@ResponseBody
+	public Map<String,Object> updateRoleByStatus(Integer id){
+		return roleService.updateRoleByStatus(id);
+	}
+	
 }

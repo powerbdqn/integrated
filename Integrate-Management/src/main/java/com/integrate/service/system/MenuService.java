@@ -36,5 +36,7 @@ public interface MenuService {
 
 	int getCount();
 
+	List<Menu> listMenusByStatusAndProhibition();
+
 
 }

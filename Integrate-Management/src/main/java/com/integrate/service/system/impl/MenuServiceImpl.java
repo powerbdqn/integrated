@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.integrate.mapper.system.MenuMapper;
 import com.integrate.pojo.system.Menu;
 import com.integrate.service.system.MenuService;
+import com.integrate.tool.MyConstants;
 
 @Service
 @Transactional
@@ -87,6 +88,11 @@ public class MenuServiceImpl implements MenuService {
 	@Override
 	public int getCount() {
 		return menuMapper.getCount();
+	}
+
+	@Override
+	public List<Menu> listMenusByStatusAndProhibition() {
+		return menuMapper.listMenusByStatusAndProhibition(MyConstants.DATA_STATUS_NO,MyConstants.DATA_PROHIBITION_NO);
 	}
 	
 }

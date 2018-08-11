@@ -153,5 +153,11 @@
     where id = #{id,jdbcType=INTEGER}
     and status = #{status,jdbcType=VARCHAR}
   </select>
-  
+  <select id="getBooksIdByBooksName" resultType="java.lang.Integer">
+    select id
+    from books
+    where status = '30'
+    and stage_id = #{stageId,jdbcType=INTEGER}
+    and name = #{name,jdbcType=VARCHAR}
+  </select>
 </mapper>

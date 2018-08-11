@@ -178,4 +178,13 @@
   	where id = #{id,jdbcType=INTEGER}
   </delete>
   
+  
+  <select id="listMenusByStatusAndProhibition" resultMap="BaseResultMap">
+	  select
+	    <include refid="Base_Column_List" />
+	  from menu
+	  where status =  #{status,jdbcType=VARCHAR}
+	  and prohibition =  #{prohibition,jdbcType=VARCHAR}
+	  <!-- and pid is not null -->
+  </select>
 </mapper>

@@ -6,6 +6,7 @@ D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\int
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\mapper\system\PermissionMapper.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\controller\converter\StringTrimConverter.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\mapper\question\QuestionMapper.java
+D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\mapper\system\RoleAndMenuMapper.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\service\dictionaries\impl\StageServiceImpl.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\mapper\system\UserMapper.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\service\dictionaries\ChapterService.java
@@ -21,6 +22,7 @@ D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\int
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\mapper\dictionaries\ChapterMapper.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\controller\system\MenuController.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\controller\dictionaries\ChapterController.java
+D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\mapper\system\RoleAndPermissionMapper.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\service\dictionaries\impl\QuestionTypesServiceImpl.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\service\system\impl\PermissionServiceImpl.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Management\src\main\java\com\integrate\controller\dictionaries\BooksController.java

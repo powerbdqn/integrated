@@ -394,4 +394,10 @@ public class MenuController {
 		return map;
 	}
 	
+	
+	@RequestMapping("/menu/list_menu_status.do")
+	@ResponseBody
+	public List<Menu> listMenusByStatusAndProhibition(){
+		return menuService.listMenusByStatusAndProhibition();
+	}
 }

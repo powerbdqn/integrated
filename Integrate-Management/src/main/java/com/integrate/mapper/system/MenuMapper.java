@@ -37,4 +37,6 @@ public interface MenuMapper {
 	void deleteMenuById(Map<String, Object> map);
 
 	int getCount();
+
+	List<Menu> listMenusByStatusAndProhibition(@Param("status")String status ,@Param("prohibition")String prohibition);
 }

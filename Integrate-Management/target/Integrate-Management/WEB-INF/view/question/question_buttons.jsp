@@ -27,12 +27,14 @@
 	
   <div class="layui-form-item" style="margin-top:30px;margin-left:50px;">
     <div class="layui-input-inline">
-      <button class="layui-btn">导入单选题试题</button>
+      <button type="button" class="layui-btn" name="file" id="test3">导入单选题试题</button>
     </div>
     
     <div class="layui-input-inline">
-      <button class="layui-btn">导入多选题试题</button>
+   		<button class="layui-btn">导入多选题试题</button>
     </div>
+    
+    
     
     <div class="layui-input-inline">
       <button class="layui-btn">导入填空题试题</button>
@@ -53,4 +55,28 @@
     </div>
   </div>
 </body>
+<script type="text/javascript">
+layui.use(['form','laydate', 'laypage', 'layer', 'table', 'carousel','upload', 'element' ], function(){
+	
+/////////////////////////////////////////////////////////////	
+//	                                                       //
+//					   layui控件声明                                                              //  
+//	   													   //
+/////////////////////////////////////////////////////////////	
+	var upload = layui.upload;
+	var $ = layui.jquery;
+    	//执行实例
+    var layer = layui.layer; 
+	upload.render({
+	    elem: '#test3'
+	    ,url: '${pageContext.request.contextPath}/question/impSingle.do'
+	    ,accept: 'file' //普通文件
+	    ,done: function(res){
+	    	console.log(res);
+	      parent.layer.msg(res.msg);
+	      //$(".layui-laypage-btn")[0].click();//刷新表格
+	    }
+	  });
+});
+</script>
 </html>

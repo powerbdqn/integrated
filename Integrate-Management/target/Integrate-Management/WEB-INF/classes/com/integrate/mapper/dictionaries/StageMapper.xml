@@ -132,4 +132,11 @@
     from stage
   </select>
   
+   <select id="getStageIdByStageName" parameterType="java.lang.String" resultType="java.lang.Integer">
+    select id
+    from stage
+    where status = '30'
+    and name = #{name,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

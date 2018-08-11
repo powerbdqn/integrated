@@ -96,7 +96,7 @@
         <property name="deleteInvalidSessions" value="true"/>
         <!-- 指定本系统sessionId, 默认为: JSESSIONID 问题: 与Servlet容器名冲突, 如Jetty, Tomcat等默认JSESSIONID,
         	当跳出shiro Servlet时如Error-page容器会为JSESSIONID重新分配值导致登录会话丢失! -->
-        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionIdCookie" ref="simpleCookie"/>
     </bean>
 
 
@@ -105,21 +105,14 @@
         <property name="passwordParam" value="password" />
     </bean> 
    
-    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+  <!--   <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg name="name" value="ycyintang.session.id"/>
-    </bean>
-
-	<!-- 自定义form认证过虑器 -->
-	<!-- 基于Form表单的身份验证过滤器，不配置将也会注册此过虑器，表单中的用户账号、密码及loginurl将采用默认值，建议配置 -->
-	<!--<bean id="formAuthenticationFilter" class="org.hqu.production_ms.shiro.CustomFormAuthenticationFilter">
-		表单中账号的input名称
-		<property name="usernameParam" value="username" />
-		表单中密码的input名称
-		<property name="passwordParam" value="password" />
-		记住我input的名称
-		<property name="rememberMeParam" value="rememberMe"/>
-	</bean> -->
-	
+        <property name="path" value="/"/>
+    </bean> -->
+	 <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+    <constructor-arg name="name" value="shiro.sesssion"/>
+    <property name="path" value="/"/>
+ </bean>
 	<!-- rememberMeManager管理器，写cookie，取出cookie生成用户信息 -->
 	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
 		<property name="cookie" ref="rememberMeCookie" />
