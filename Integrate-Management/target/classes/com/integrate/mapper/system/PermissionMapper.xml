@@ -18,11 +18,88 @@
     mdify_time
   </sql>
   
+  <select id="getPermissionListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	SELECT p.* 
+  	FROM permission p, role r,USER u,user_role ur,role_permission rp 
+	WHERE p.ID = rp.PERMISSION_ID 
+	AND r.ID = rp.ROLE_ID 
+	AND r.ID = ur.ROLE_ID 
+	AND u.ID = ur.USER_ID 
+	AND u.ID = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 根据未逻辑删除条件进行查询所有 -->
   <select id="listPermissions" resultMap = "BaseResultMap">
   	select 
     	<include refid="Base_Column_List" />
     from permission
     where status = '1'
   </select>
+  
+    <select id="listPermissionDataListByStatus" resultMap = "BaseResultMap">
+  	select 
+    	<include refid="Base_Column_List" />
+    from permission
+    where status = '0'
+  </select>
+  
+  <select id="getPermissionById"  parameterType="java.lang.Integer"  resultMap = "BaseResultMap">
+  	select 
+    	<include refid="Base_Column_List" />
+    from permission
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <!-- 保存所有 -->
+  <insert id="savePermission" parameterType="com.integrate.pojo.system.Permission">
+    insert into permission (id, name, keyword, 
+      description, status, prohibition, 
+      create_user, create_time, modify_user, 
+      mdify_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keyword,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{prohibition,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyUser,jdbcType=VARCHAR}, 
+      #{mdifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  
+   <update id="updatePermission" parameterType="com.integrate.pojo.system.Permission">
+    update permission
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="keyword != null">
+        keyword = #{keyword,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="prohibition != null">
+        prohibition = #{prohibition,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null">
+        create_user = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="modifyUser != null">
+        modify_user = #{modifyUser,jdbcType=VARCHAR},
+      </if>
+      <if test="mdifyTime != null">
+        mdify_time = #{mdifyTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  
+  
+  <delete id="deletePermissionByDB" parameterType="java.lang.Integer">
+  	delete from permission
+  	where id = #{id,jdbcType=INTEGER}
+  </delete>
   
 </mapper>

@@ -5,17 +5,18 @@ import java.util.List;
 import com.integrate.pojo.system.Permission;
 
 public interface PermissionMapper {
-/*    int deleteByPrimaryKey(Integer id);
-
-    int insert(Permission record);
-
-    int insertSelective(Permission record);
-
-    Permission selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Permission record);
-
-    int updateByPrimaryKey(Permission record);*/
 
 	List<Permission> listPermissions();
+
+	void savePermission(Permission permission);
+
+	List<Permission> getPermissionListByUserId(Integer id);
+
+	Permission getPermissionById(Integer id);
+
+	int updatePermission(Permission permission);
+
+	List<Permission> listPermissionDataListByStatus();
+
+	int deletePermissionByDB(Integer id);
 }

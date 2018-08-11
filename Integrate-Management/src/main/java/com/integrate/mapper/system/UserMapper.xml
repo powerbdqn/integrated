@@ -10,6 +10,7 @@
     <result column="telephone_a" jdbcType="VARCHAR" property="telephoneA" />
     <result column="telephone_b" jdbcType="VARCHAR" property="telephoneB" />
     <result column="birthday" jdbcType="TIMESTAMP" property="birthday" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="identity" jdbcType="VARCHAR" property="identity" />
     <result column="level" jdbcType="VARCHAR" property="level" />
     <result column="prohibition" jdbcType="VARCHAR" property="prohibition" />
@@ -20,7 +21,7 @@
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
   </resultMap>
   <sql id="Base_Column_List">
-    id, username, password, nick_name, cord, telephone_a, telephone_b, birthday, identity, 
+    id, username, password, nick_name, cord, telephone_a, telephone_b, email,birthday, identity, 
     level, prohibition, status, create_user, create_time, modify_user, modify_time
   </sql>
   

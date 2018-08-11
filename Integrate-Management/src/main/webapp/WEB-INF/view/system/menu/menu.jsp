@@ -17,7 +17,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript" src="<%=basePath%>static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>static/ztree/jquery.ztree.all-3.5.js" ></script>
 	<script type="text/javascript" src="<%=basePath%>static/js/tool.js"></script>
-	<script type="text/javascript" src="<%=basePath%>static/js"></script>
+	<script type="text/javascript" src="<%=basePath%>static/plugins/layer/layer.js"></script>
 	<script type="text/javascript">
 		$(function(){
 			$("#grid").datagrid({
@@ -88,10 +88,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						    onSubmit: function(){    
 						    	var isValid = $(this).form('validate');
 								if (!isValid){
-									$.messager.show({
-										title:'提示',
-										msg:'请补全信息。。。'
-									});
+									layer.msg('请补全信息。。。');
 								}
 								return isValid;	// 返回false终止表单提交
 						    },    
@@ -101,10 +98,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 								$('#menuWin').dialog("close");
 								$("#grid").datagrid("reload");
 						    	var str = eval('(' + data + ')');  
-						    	$.messager.show({
-									title:'提示信息',
-									msg:str.msg
-								});   
+						    	layer.msg(str.msg);
 						    }
 						});
 					}
@@ -142,10 +136,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						    onSubmit: function(){    
 						    	var isValid = $(this).form('validate');
 								if (!isValid){
-									$.messager.show({
-										title:'提示',
-										msg:'请补全信息。。。'
-									});
+									layer.msg("请补全信息");
 								}
 								return isValid;	// 返回false终止表单提交
 						    },    
@@ -155,10 +146,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 								$('#menuWin').dialog("close");
 								$("#grid").datagrid("reload");
 						    	var str = eval('(' + data + ')');  
-						    	$.messager.show({
-									title:'提示信息',
-									msg:str.msg
-								});   
+						    	layer.msg(str.msg);
 						    }
 						});
 					}
@@ -180,7 +168,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			
 			if(row.status == "0"){
 				$("#grid").datagrid("reload");
-				$.messager.alert("警告","这条记录无法删除","error");
+				layer.msg("这条记录无法删除");
 				return;
 			}
 			
@@ -193,7 +181,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						data:{id:id},
 						success:function(data){
 							$("#grid").datagrid("reload");
-							$.messager.alert("友情提示",data.msg,"info");
+							layer.msg(data.msg);
 						}
 					});
 				}
@@ -207,7 +195,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			var prohibition = row.prohibition;
 			if(row.status == "0"){
 				$("#grid").datagrid("reload");
-				$.messager.alert("警告","这条记录无法操作","error");
+				layer.msg("这条记录无法操作");
 				return;
 			}
 			$.messager.confirm("友情提示","你确定要操作该条记录吗?",function(r){
@@ -219,7 +207,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						data:{id:id,prohibition:prohibition},
 						success:function(data){
 							$("#grid").datagrid("reload");
-							$.messager.alert("友情提示",data.msg,"info");
+							layer.msg(data.msg);
 						}
 					});
 				}

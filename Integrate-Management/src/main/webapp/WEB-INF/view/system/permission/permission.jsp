@@ -17,9 +17,10 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript" src="<%=basePath%>static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>static/ztree/jquery.ztree.all-3.5.js" ></script>
 	<script type="text/javascript" src="<%=basePath%>static/js/tool.js"></script>
+	<script type="text/javascript" src="<%=basePath%>static/plugins/layer/layer.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			$("#grid").datagrid({
+			$("#permissionTable").datagrid({
 				toolbar : '#tb',
 				url : '${pageContext.request.contextPath}/permission/permission_list.do?x='+new Date().getTime(),
 				columns : [[
@@ -53,7 +54,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					  var str = "";
 					  str+= "<a href='javascript:update("+index+");' class='easyui-linkbutton'>修改</a>";
 					  str += "     /";
-					  str+= "<a href='javascript:update("+index+");' class='easyui-linkbutton'>启禁</a>";
+					  str+= "<a href='javascript:operate("+index+");' class='easyui-linkbutton'>启禁</a>";
 					  str += "     /";
 					  str+= "<a href='javascript:del("+index+");' class='easyui-linkbutton'>删除</a>";
 				  	  return str;
@@ -66,16 +67,176 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			});
 		});
 		
-		function toPermissionView(){
-			window.location.href='${pageContext.request.contextPath}/permission/toAddPermissionView.do?x='+new Date().getTime();
+		function showAddPermissionWindow(){
+			$('#permissionForm').form("clear");
+			$('#permissionWindow').dialog({    
+			    title: '新增',    
+			    width: 600,    
+			    height: 450,    
+			    closed: false,    
+			    cache: false,    
+			    href: '${pageContext.request.contextPath}/permission/show.do?x='+new Date().getTime(),  
+			    modal: true,
+			    buttons:[{
+					text:'保存',
+					iconCls:'icon-save',
+					handler:function(){
+						$('#permissionForm').form('submit', {    
+						    url:'${pageContext.request.contextPath}/permission/permission_save.do?x='+new Date().getTime(),   
+						    onSubmit: function(){    
+						    	var isValid = $(this).form('validate');
+								if (!isValid){
+									layer.msg('请补全信息。。。');
+								}
+								return isValid;	// 返回false终止表单提交
+						    },    
+						    success:function(data){ 
+						    	console.log(data);
+						    	$('#permissionForm').form("clear");
+								$('#permissionWindow').dialog("close");
+								$("#permissionTable").datagrid("reload");
+						    	var str = eval('(' + data + ')'); 
+						    	layer.msg(str.message);
+						    }
+						});
+					}
+				},{
+					text:'关闭',
+					iconCls:'icon-cancel',
+					handler:function(){
+						$('#permissionForm').form("clear");
+						$('#permissionWindow').dialog("close");
+						$("#permissionTable").datagrid("reload"); 
+					}
+				}]
+			});    
 		}
 		
-	</script>
+		function update(index){
+			var row = $("#permissionTable").datagrid('getData').rows[index];
+			var id = row.id;
+			var prohibition = row.prohibition;
+			if("0" == prohibition){
+				$.messager.alert("错误提示","该记录无法操作","error");
+				return ;
+			}
+			
+			$('#permissionWindow').dialog({    
+			    title: '修改',    
+			    width: 600,    
+			    height: 450,    
+			    closed: false,    
+			    cache: false,
+			    data:{"id":id},
+			    href: '${pageContext.request.contextPath}/permission/show.do?id='+id+'&x='+new Date().getTime(),  
+			    modal: true,
+			    buttons:[{
+					text:'保存',
+					iconCls:'icon-save',
+					handler:function(){
+						$('#permissionForm').form('submit', {    
+						    url:"${pageContext.request.contextPath}/permission/permission_update.do?x="+new Date().getTime(),    
+						    onSubmit: function(){    
+						    	var isValid = $(this).form('validate');
+								if (!isValid){
+									layer.msg("请补全信息");
+								}
+								return isValid;	// 返回false终止表单提交
+						    },    
+						    success:function(data){ 
+						    	console.log(data);
+						    	$('#permissionForm').form("clear");
+								$('#permissionWindow').dialog("close");
+								$("#permissionTable").datagrid("reload");
+						    	var str = eval('(' + data + ')');  
+						    	layer.msg(str.message);
+						    }
+						});
+					}
+				},{
+					text:'关闭',
+					iconCls:'icon-cancel',
+					handler:function(){
+						$('#permissionForm').form("clear");
+						$('#permissionWindow').dialog("close");
+						$("#permissionTable").datagrid("reload"); 
+					}
+				}]
+			});    
+		}
+		
+function operate(index){
+	var row = $("#permissionTable").datagrid('getData').rows[index];
+	var id = row.id;
+	var prohibition = row.prohibition;
+	if(row.status == "0"){
+		$("#permissionTable").datagrid("reload");
+		layer.msg("这条记录无法操作");
+		return;
+	}
+	$.messager.confirm("友情提示","你确定要操作该条记录吗?",function(r){
+		if(r){
+			$.ajax({
+				type:'POST',
+				dataType:'json',
+				url:"${pageContext.request.contextPath}/permission/permission_update_operate.do?x="+new Date().getTime(),
+				data:{id:id,prohibition:prohibition},
+				success:function(data){
+					$("#permissionTable").datagrid("reload");
+					layer.msg(data.message);
+				}
+			});
+		}
+	});
+}
+
+function del(index){
+	var row = $("#permissionTable").datagrid('getData').rows[index];
+	var id = row.id;
+	
+	if(row.status == "0"){
+		$("#permissionTable").datagrid("reload");
+		layer.msg("这条记录无法删除");
+		return;
+	}
+	
+	$.messager.confirm("友情提示","你确定要逻辑删除吗?",function(r){
+		if(r){
+			$.ajax({
+				type:'POST',
+				dataType:'json',
+				url:"${pageContext.request.contextPath}/permission/permission_del.do?x="+new Date().getTime(),
+				data:{id:id},
+				success:function(data){
+					$("#permissionTable").datagrid("reload");
+					if(data.code == 2000){
+						layer.msg(data.message);
+					}else if(data.code == null || data.code == ''){
+						data.code = 5000;
+						layer.msg(data.message);
+					}
+				}
+			});
+		}
+	});
+}
+
+function remove(){
+	window.location.href='${pageContext.request.contextPath}/permission/permission_show_remove.do?x='+new Date().getTime();
+}
+
+</script>
 </head>
 <body>
-	<div id="tb">
-		<a onclick="toPermissionView()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
+	<div id="tb" style="padding:5px;">
+		<a onclick="showAddPermissionWindow()" class="easyui-linkbutton" style="margin-left:10px;" data-options="iconCls:'icon-add'">新增</a>&nbsp;&nbsp;&nbsp;&nbsp;
+		<a onclick="remove()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">恢复/删除</a>&nbsp;&nbsp;&nbsp;&nbsp;
 	</div>
-		<table id="grid"></table>
+	
+	<table id="permissionTable"></table>
+	
+	<div id="permissionWindow"></div>	
+		
+		
 </body>
 </html>

@@ -19,6 +19,8 @@ public class User {
 
     private String telephoneB;
 
+    private String email;
+    
     private Date birthday;
 
     private String identity;
@@ -103,8 +105,16 @@ public class User {
     public void setTelephoneB(String telephoneB) {
         this.telephoneB = telephoneB == null ? null : telephoneB.trim();
     }
+    
+    public String getEmail() {
+		return email;
+	}
 
-    public Date getBirthday() {
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public Date getBirthday() {
         return birthday;
     }
 
