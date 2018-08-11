@@ -1,12 +1,15 @@
 package com.integrate.controller.system;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
+import com.integrate.pojo.system.Role;
 import com.integrate.pojo.system.Role;
 import com.integrate.service.system.RoleService;
 
@@ -31,5 +34,17 @@ public class RoleController {
 	@ResponseBody
 	public List<Role> listRoles(){
 		return roleService.listRoles();
+	}
+	
+	
+	@RequestMapping("/show.do")
+	public ModelAndView showRoleWindow(Integer id) {
+		return roleService.showRoleWindow(id);
+	}
+	
+	@RequestMapping("/role_save.do")
+	@ResponseBody
+	public Map<String,Object> saveRole(Role role){
+		return roleService.saveRole(role);
 	}
 }

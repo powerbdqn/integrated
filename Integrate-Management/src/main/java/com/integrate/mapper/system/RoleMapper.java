@@ -5,17 +5,12 @@ import java.util.List;
 import com.integrate.pojo.system.Role;
 
 public interface RoleMapper {
- /*   int deleteByPrimaryKey(Integer id);
-
-    int insert(Role record);
-
-    int insertSelective(Role record);
-
-    Role selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Role record);
-
-    int updateByPrimaryKey(Role record);*/
 
 	List<Role> listRoles();
+
+	List<Role> getRoleListByUserId(Integer id);
+
+	Role getRoleById(Integer id);
+
+	void saveRole(Role role);
 }

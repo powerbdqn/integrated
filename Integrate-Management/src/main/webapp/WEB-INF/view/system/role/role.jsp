@@ -19,7 +19,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript" src="<%=basePath%>static/js/tool.js"></script>
 	<script type="text/javascript">
 		$(function(){
-			$("#grid").datagrid({
+			$("#roleTable").datagrid({
 				toolbar : '#tb',
 				url : '${pageContext.request.contextPath}/role/role_list.do?x='+new Date().getTime(),
 				columns : [[
@@ -53,7 +53,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					  var str = "";
 					  str+= "<a href='javascript:update("+index+");' class='easyui-linkbutton'>修改</a>";
 					  str += "     /";
-					  str+= "<a href='javascript:update("+index+");' class='easyui-linkbutton'>启禁</a>";
+					  str+= "<a href='javascript:operate("+index+");' class='easyui-linkbutton'>启禁</a>";
 					  str += "     /";
 					  str+= "<a href='javascript:del("+index+");' class='easyui-linkbutton'>删除</a>";
 				  	  return str;
@@ -66,16 +66,62 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			});
 		});
 		
-		function toPermissionView(){
-			window.location.href='${pageContext.request.contextPath}/role/toAddRoleView.do?x='+new Date().getTime();
+		function showAddRoleWindow(){
+			//window.location.href='${pageContext.request.contextPath}/role/toAddRoleView.do?x='+new Date().getTime();
+			$('#roleForm').form("clear");
+			$('#roleWindow').dialog({    
+			    title: '新增',    
+			    width: 600,    
+			    height: 450,    
+			    closed: false,    
+			    cache: false,    
+			    href: '${pageContext.request.contextPath}/role/show.do?x='+new Date().getTime(),  
+			    modal: true,
+			    buttons:[{
+					text:'保存',
+					iconCls:'icon-save',
+					handler:function(){
+						$('#roleForm').form('submit', {    
+						    url:'${pageContext.request.contextPath}/role/role_save.do?x='+new Date().getTime(),   
+						    onSubmit: function(){    
+						    	var isValid = $(this).form('validate');
+								if (!isValid){
+									layer.msg('请补全信息。。。');
+								}
+								return isValid;	// 返回false终止表单提交
+						    },    
+						    success:function(data){ 
+						    	console.log(data);
+						    	$('#roleForm').form("clear");
+								$('#roleWindow').dialog("close");
+								$("#roleTable").datagrid("reload");
+						    	var str = eval('(' + data + ')'); 
+						    	layer.msg(str.message);
+						    }
+						});
+					}
+				},{
+					text:'关闭',
+					iconCls:'icon-cancel',
+					handler:function(){
+						$('#roleForm').form("clear");
+						$('#roleWindow').dialog("close");
+						$("#roleTable").datagrid("reload"); 
+					}
+				}]
+			});  
 		}
 		
 	</script>
 </head>
 <body>
-	<div id="tb">
-		<a onclick="toPermissionView()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
+	<div id="tb" style="padding:5px;">
+		<a onclick="showAddRoleWindow()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
+		<a onclick="remove()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">恢复/删除</a>
 	</div>
-		<table id="grid"></table>
+	
+	<table id="roleTable"></table>
+	
+	<div id="roleWindow"></div>	
 </body>
 </html>

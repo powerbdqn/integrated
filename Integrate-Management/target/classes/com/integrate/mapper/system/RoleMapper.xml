@@ -21,5 +21,33 @@
     select 
     <include refid="Base_Column_List" />
     from role
+    where status = '1'
   </select>
+  
+  <select id="getRoleById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from role
+    where status = '1'
+  </select>
+  
+  <select id="getRoleListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+  	SELECT r.* 
+  	FROM role r,USER u,user_role ur 
+  	WHERE r.id = ur.ROLE_ID 
+  	AND u.id = ur.USER_ID 
+  	AND u.ID = #{id,jdbcType=INTEGER}
+  </select>
+  
+  <insert id="saveRole" parameterType="com.integrate.pojo.system.Role">
+    insert into role (id, name, keyword, 
+      description, prohibition, status, 
+      create_user, create_time, modify_user, 
+      mdify_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{keyword,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{prohibition,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{modifyUser,jdbcType=VARCHAR}, 
+      #{mdifyTime,jdbcType=TIMESTAMP})
+  </insert>
+  
 </mapper>
