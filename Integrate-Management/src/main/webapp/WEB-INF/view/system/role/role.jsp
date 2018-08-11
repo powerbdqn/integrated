@@ -135,7 +135,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 <body>
 	<div id="tb" style="padding:5px;">
 		<a onclick="showRolePage()" class="easyui-linkbutton" data-options="iconCls:'icon-add'">新增</a>
-		<a onclick="remove()" class="easyui-linkbutton" data-options="iconCls:'icon-remove'">恢复/删除</a>
 	</div>
 	
 	<table id="roleTable"></table>
