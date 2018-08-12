@@ -8,4 +8,6 @@ public interface RoleAndMenuMapper {
     int insert(RoleAndMenuKey record);
 
     int insertSelective(RoleAndMenuKey record);
+
+	void updateMenuIdByRoleId(RoleAndMenuKey bmk);
 }

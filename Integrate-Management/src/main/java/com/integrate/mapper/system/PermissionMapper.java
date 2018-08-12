@@ -19,4 +19,6 @@ public interface PermissionMapper {
 	List<Permission> listPermissionDataListByStatus();
 
 	int deletePermissionByDB(Integer id);
+
+	List<Permission> findPermissionByRoleId(Integer id);
 }

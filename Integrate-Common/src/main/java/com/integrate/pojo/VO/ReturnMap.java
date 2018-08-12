@@ -5,7 +5,7 @@ import java.util.Map;
 
 public class ReturnMap {
 
-	private ReturnMap() {}
+private ReturnMap() {}
 	
 	public static Map<String,Object> createMap(Integer code,String msg,Integer count,Object obj) {
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -15,5 +15,4 @@ public class ReturnMap {
 		map.put("data", obj);
 		return map;
 	}
-	
 }

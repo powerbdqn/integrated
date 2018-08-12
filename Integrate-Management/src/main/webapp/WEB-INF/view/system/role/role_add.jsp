@@ -20,6 +20,9 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript" src="<%=basePath%>static/plugins/layer/layer.js"></script>
 	<script type="text/javascript">
 	$(function(){
+		
+		var id = $("#roleId").val();
+		
 		// 授权树初始化
 		var setting = {
 			data : {
@@ -51,13 +54,22 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		// 页面加载后， 获取所有权限数据，生成checkbox列表
 		$.get("${pageContext.request.contextPath}/permission/permission_list.do", function(data){
 			// 生成checkbox列表 
-			$(data).each(function(){
-				var checkbox = $("<input type='checkbox' name='permissionIds' />");
+			$(data).each(function(i,v){
+				var checkbox = $("<input id="+v.id+" type='checkbox' name='permissionIds' />");
 				checkbox.val(this.id);
 				$("#permissionTD").append(checkbox);
-				$("#permissionTD").append(this.name);
+				$("#permissionTD").append(this.name); 
 			});
 		});
+		
+		//回显权限数据
+		$.get("${pageContext.request.contextPath}/permission/findPermissionByRoleId.do?id="+id,function(data){
+			$(data).each(function(i,v){
+				$("#"+v.id).attr("checked","checked");
+			}); 
+		});
+		
+		
 		
 		
 		// 点击保存
@@ -73,13 +85,14 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			var menuIds = array.join(",");
 			$("input[name='menuIds']").val(menuIds);
 			
+			var a = $("input[checked='checked']");
+			console.log(nodes);
+			console.log(a);
+			
 			// 提交form
 			if($("#roleForm").form('validate')){
 				$("#roleForm").form('submit',{
 					url:'${pageContext.request.contextPath}/role/role_save.do?x='+new Date().getTime(),
-					onSelect:function(){
-						alert("asd");
-					},
 					success:function(data){
 						$("#roleForm").form("clear");
 						$("#roleTable").datagrid('reload');
@@ -93,17 +106,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				return;
 			}
 		});
-		
-		 var id = $("#roleId").val();
-			$.ajax({
-				type:'POST',
-				dataType:'json',
-				url:'${pageContext.request.contextPath}/permission/show.do?id='+id,
-				success:function(data){
-					alert(data);
-				}
-			}); 
-		
 	}); 
 </script>
 </head>
@@ -145,7 +147,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<tr>
 						<td>菜单授权</td>
 						<td>
-							<input type="hidden" name="menuIds"/>
+							<input id="menuIds" type="hidden" name="menuIds"/>
 							<ul id="menuTree" class="ztree"></ul>
 						</td>
 					</tr>

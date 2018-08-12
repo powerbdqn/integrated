@@ -30,6 +30,13 @@ public class PermissionController {
 		return permissionService.showPermissionWindow(id);
 	}
 	
+	
+	@RequestMapping("/findPermissionByRoleId.do")
+	@ResponseBody
+	public List<Permission> findPermissionByRoleId(Integer id){
+		return permissionService.findPermissionByRoleId(id);
+	}
+	
 	@RequestMapping("/permission_list.do")
 	@ResponseBody
 	public List<Permission> listPermissions(){

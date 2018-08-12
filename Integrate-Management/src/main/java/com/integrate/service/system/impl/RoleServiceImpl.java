@@ -107,7 +107,7 @@ public class RoleServiceImpl implements RoleService {
 						RoleAndPermissionKey bpk = new RoleAndPermissionKey();
 						bpk.setPermissionId(permissionId);
 						bpk.setRoleId(id);
-						roleAndPermissionMapper.insert(bpk);
+						roleAndPermissionMapper.updatePermissionIdByRoleId(bpk);
 					}
 				}
 				
@@ -118,7 +118,7 @@ public class RoleServiceImpl implements RoleService {
 						Integer menuId = Integer.parseInt(string);
 						bmk.setMenuId(menuId);
 						bmk.setRoleId(id);
-						roleAndMenuMapper.insert(bmk);
+						roleAndMenuMapper.updateMenuIdByRoleId(bmk);
 					}
 				}
 			}
@@ -172,5 +172,4 @@ public class RoleServiceImpl implements RoleService {
 		}
 		return map;
 	}
-
 }

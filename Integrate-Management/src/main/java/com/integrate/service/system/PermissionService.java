@@ -30,4 +30,6 @@ public interface PermissionService {
 
 	Map<String, Object> deletePermissionByDB(Integer id);
 
+	List<Permission> findPermissionByRoleId(Integer id);
+
 }

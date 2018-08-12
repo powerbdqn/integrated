@@ -23,4 +23,11 @@ public class MyConstants {
 	public static final String QUESTION_TITLE_BOOK="书名";
 	public static final String QUESTION_TITLE_CHAPTER="章节";
 	
+	
+    public static final String ALIYUN_IDCARD_HOST = "https://fediscern.market.alicloudapi.com";
+    public static final String ALIYUN_IDCARD_PATH = "/baseinfo";
+    public static final String ALIYUN_IDCARD_METHOD = "GET";
+    public static final String ALIYUN_IDCARD_APPCODE = "1b3fb8645992408989f85a5ab43027ec";
+	
+	
 }

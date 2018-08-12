@@ -3,6 +3,8 @@ package com.integrate.controller.system;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,10 @@ public class RoleController {
 	private RoleService roleService;
 	
 	@RequestMapping("/toRole.do")
-	public String toRoleView() {
+	public String toRoleView(HttpServletResponse response) {
+		response.setHeader("Pragma","No-cache");  
+		response.setHeader("Cache-Control","no-cache");
+		response.setDateHeader("Expires", 0);
 		return "system/role/role";
 	}
 	

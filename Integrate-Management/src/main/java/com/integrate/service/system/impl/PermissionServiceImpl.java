@@ -174,4 +174,12 @@ public class PermissionServiceImpl implements PermissionService {
 		return map;
 	}
 
+	@Override
+	public List<Permission> findPermissionByRoleId(Integer id) {
+		if(id != null) {
+		return permissionMapper.findPermissionByRoleId(id);
+		}
+		return null;
+	}
+
 }

@@ -1,6 +1,13 @@
 package com.integrate.controller.system;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -13,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSONArray;
 import com.integrate.pojo.system.User;
 import com.integrate.service.system.UserService;
 
@@ -52,4 +60,31 @@ public class UserController {
     	return userService.listUsers();
     }
     
+    @RequestMapping("/user/check_card.do")
+    @ResponseBody
+    public Map<String,Object> checkUserCard(String card){
+    	return userService.checkUserCard(card);
+    }
+    
+    public static void main(String[] args) throws ParseException {
+    	String a = "{\"status\":\"201\",\"msg\":\"1989-08-16\"}";
+    	Map<String,Object> map = JSONArray.parseObject(a, Map.class);
+    	System.err.println(map);
+
+    	Map<String,Object> retMap = new HashMap<String,Object>();
+    	Set<Entry<String,Object>> set = map.entrySet();
+    	for (Entry<String, Object> entry : set) {
+			String key = entry.getKey();
+			Object value = map.get(key);
+			System.err.println(key + ">>>" + value);
+			retMap.put(key, value);
+		}
+    	Object value = retMap.get("msg");
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+    	Date date = sdf.parse(value.toString());
+    	System.out.println(date);
+    	System.out.println(value.toString().replace("-", ""));
+    	Object status = retMap.get("status");
+    	System.err.println("202".equals(status));
+	}
 }

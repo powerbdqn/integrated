@@ -8,4 +8,6 @@ public interface RoleAndPermissionMapper {
     int insert(RoleAndPermissionKey record);
 
     int insertSelective(RoleAndPermissionKey record);
+
+	void updatePermissionIdByRoleId(RoleAndPermissionKey bpk);
 }
