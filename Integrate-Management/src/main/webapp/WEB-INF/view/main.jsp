@@ -11,17 +11,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<link rel="icon" href="https://static.jianshukeji.com/highcharts/images/favicon.ico">
-		<meta name="viewport" content="
- initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
 		<title>登录</title>
 		<link rel="stylesheet" href="<%=basePath %>/static/plugins/layui/css/layui.css" media="all" />
-		 <script src="<%= basePath %>static/plugins/layui/layui.js"></script>
 		<link rel="stylesheet" href="<%= basePath %>static/css/login.css" />
 		<link rel="stylesheet" href="<%=basePath %>/static/css/main.css" />
-		<%-- <script src="<%= basePath %>static/js/highcharts.js"></script> --%>
+		<script src="<%= basePath %>static/easyui/jquery-1.8.3.js"></script>
+		<script src="<%= basePath %>static/plugins/layui/layui.js"></script>
 	 	<script src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
         <script src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
         <script src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+        <script src="http://cdn.hcharts.cn/highcharts/modules/data.js"></script>
 	</head>
 
 	<body>
@@ -188,60 +188,69 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			</fieldset>
 		</div>
 		
-		<script type="text/javascript">
+<script type="text/javascript">
+var chart = null; // 定义全局变量
+
+$(document).ready(function() {
 	
-		
-		var chart = Highcharts.chart('container', {
-    chart: {
-        type: 'line'
-    },
-    title: {
-        text: '班级月度数据折线图'
-    },
-    subtitle: {
-        text: ''
-    },
-    xAxis: {
-        categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
-    },
-    yAxis: {
-        title: {
-            text: '班级评比'
-        }
-    },
-    plotOptions: {
-        line: {
-            dataLabels: {
-                // 开启数据标签
-                enabled: true          
-            },
-            // 关闭鼠标跟踪，对应的提示框、点击事件会失效
-            enableMouseTracking: false
-        }
-    },
-    series: [{
-        name: 'S2T75班',
-        data: [7.0, 6.9, 9.5, 14.5, 1, 2.5, 5.2, 6.5, 2.3, 1.3, 13, 0.6]
-    }, {
-        name: 'S2T76班',
-        data: [1, 2, 3, 4, 5, 6, 0, 0, 0, 0, 0, 0]
-    }, {
-        name: 'S2T77班',
-        data: [3.9, 4.2, 5.4, 2.5, 1.9, 1.2, 7.0, 6.6, 11.2, 14.3, 1.6, 7.8]
-    }, {
-        name: 'S2T78班',
-        data: [3.9, 4.2, 2.7, 3.5, 1.9, 13.2, 11.0, 13.6, 11.2, 5.3, 1.6, 4.8]
-    }, {
-        name: 'S2T79班',
-        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-    }, {
-        name: 'Y2T08班',
-        data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8]
-    }, {
-        name: 'Y2T09班',
-        data: [3.1, 0.2, 4.7, 3.5, 1.9, 5.2, 7.0, 11.6, 13.2, 11.3, 16.6, 24.8]
-    }]
+	 chart = Highcharts.chart('container', {
+		 chart: {
+		      type: 'spline',
+		      events: {
+		        load: requestData // 图表加载完毕后执行的回调函数
+		      }
+		    },
+	    title: {
+	        text: '班级月度数据折线图'
+	    },
+	    subtitle: {
+	        text: ''
+	    },
+	    xAxis: {
+	        categories: ['一月', '二月', '三月', '四月', '五月', '六月', '七月', '八月', '九月', '十月', '十一月', '十二月']
+	    },
+	    yAxis: {
+	        title: {
+	            text: '班级评比'
+	        }
+	    },
+	    plotOptions: {
+	        line: {
+	            dataLabels: {
+	                // 开启数据标签
+	                enabled: true          
+	            },
+	            // 关闭鼠标跟踪，对应的提示框、点击事件会失效
+	            enableMouseTracking: false
+	        }
+	    }/* ,
+	    series: [] */
+	});
 });
-		</script>
+		
+function requestData() {
+	var series = {};
+  $.ajax({
+    url: '${pageContext.request.contextPath}/permission/test.do?x=' + new Date().getTime(),
+    contentType : 'application/json',
+    success: function(data) {
+		console.log(data);
+      //setTimeout(requestData, 5000); 每5秒执行一次方法
+     /*  var series = { 这是一个的
+    		  name:data.name,data:data.data
+     	};  */
+     	$.each(data,function(i,v){//这是多个
+     		console.log(v);
+     		 series = {
+     	    		  name:v.name,data:v.data
+     	     	};
+      chart.addSeries(series); 
+     	});
+     	
+    },
+    cache: false
+  });
+}
+</script>
 	</body>
 </html>

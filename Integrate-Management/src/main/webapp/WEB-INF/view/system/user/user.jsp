@@ -135,9 +135,16 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 		}
 		
 		function update(index){
-			var row =  $("#grid").datagrid("getData").rows[index];
+			parent.layer.msg("该功能暂未开放");
+			return;
+			/* var row =  $("#grid").datagrid("getData").rows[index];
 			var id = row.id;
-			window.location.href='${pageContext.request.contextPath}/user/update_user.do?id='+id+'&x=' + new Date().getTime();
+			window.location.href='${pageContext.request.contextPath}/user/update_user.do?id='+id+'&x=' + new Date().getTime(); */
+		}
+		
+		function show(index){
+			parent.layer.msg("该功能暂未开放");
+			return;
 		}
 	</script>
 </head>

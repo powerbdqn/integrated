@@ -32,7 +32,7 @@
     select 
     <include refid="Base_Column_List" />
     from menu
-    where  pid = #{pid,jdbcType=INTEGER}
+    where  pid = #{pid,jdbcType=INTEGER} order by id
   </select>
   
   
@@ -42,13 +42,13 @@
     from menu
     where  pid is null
     and status = '1'
-    and prohibition = '1'
+    and prohibition = '1' order by id
   </select>
   
   <select id="getCount" resultType="java.lang.Integer">
   	select count(0)
   	from menu
-  	where status = '1'
+  	where status = '1' 
   </select>
   
   
@@ -64,7 +64,7 @@
    <select id="findMenuByPid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     SELECT DISTINCT * FROM menu WHERE pid =(SELECT id FROM menu WHERE pid IS NULL AND id = #{pid,jdbcType=INTEGER})
   	and status = '1'
-  	and prohibition = '1'
+  	and prohibition = '1' order by id
   </select>
   
   <select id="getMenusByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
@@ -76,7 +76,7 @@
 	AND u.ID = ur.USER_ID 
 	AND u.ID = #{id,jdbcType=INTEGER}
 	and m.status = '1'
-	and m.prohibition = '1'
+	and m.prohibition = '1' order by id
   </select>
   
   <select id="getParentMenuNameByPid" parameterType="java.lang.Integer" resultType="java.lang.String">
@@ -184,7 +184,7 @@
 	    <include refid="Base_Column_List" />
 	  from menu
 	  where status =  #{status,jdbcType=VARCHAR}
-	  and prohibition =  #{prohibition,jdbcType=VARCHAR}
+	  and prohibition =  #{prohibition,jdbcType=VARCHAR} order by id
 	  <!-- and pid is not null -->
   </select>
 </mapper>
