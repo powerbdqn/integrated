@@ -21,15 +21,8 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript">
 			$(function(){
 				$("body").css({visibility:"visible"});
-				//$('.panel-tool-close').hide();
-				/* var reg = /(^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}$)/; */
 				var reg = /^[1-9](\d{16}|\d{13})[0-9xX]$/;
-				
-				var result = $("input [name='sex']").val();
-				if(result == '1'){
-					$("input [name='sex']").attr("checked","checked");
-				}
-				console.log(result);
+				$("#description").val("请在这里写上对该用户的描述信息");
 				$.messager.prompt('用户信息校验', '请输入您要添加的用户身份证号码', function(r){
 					if (r){
 						if(reg.test(r) === false){
@@ -46,7 +39,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 									if(data.code == 2000){
 										$("#username").val(data.obj.username);
 										$("#password").val(data.obj.password);
-										$("#birthday").val(dateFormatter(data.obj.birthday));
 										$("#cord").val(data.obj.cord);
 										$("#address").val(data.obj.address);
 										$("#errorId").text(data.obj.msg);
@@ -71,7 +63,51 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 			
 				
 				$('#save').click(function(){
-					$('#form').submit();
+					
+					$("#form").form('submit',{
+						url:"${pageContext.request.contextPath}/user/user_save.do?x=" + new Date().getTime(),
+						onSubmit:function(){
+							var vali = $("#form").form('validate');
+							if(!vali){
+								parent.layer.msg("请补全信息...");
+								$("#errorId").text("页面上的选项不要忘了哦");
+								return vali;
+							}
+						},
+						success:function(data){
+							$("#form").form("clear");
+							window.location.href="${pageContext.request.contextPath}/user/toUser.do?x="+ new Date().getTime();
+							$("#grid").datagrid("reload");
+							parent.layer.msg(data.message);
+						}
+					});
+				});
+				
+				//获取部门level
+				$.ajax({
+					type:'POST',
+					dataType:'json',
+					url:'${pageContext.request.contextPath}/level/level_list.do?x='+ new Date().getTime(),
+					success:function(data){
+		                var arr = [{ 'name': '--------------请选择--------------', 'id': ''}]; 
+						$.each(data,function(i,v){
+							arr.push({ "name": v.name, "id": v.id });
+						 }); 
+		                $("#level").combobox("loadData", arr);
+					}
+				});
+				//获取身份
+				$.ajax({
+					type:'POST',
+					dataType:'json',
+					url:'${pageContext.request.contextPath}/identity/identity_list.do?x='+ new Date().getTime(),
+					success:function(data){
+		                var arr = [{ 'name': '--------------请选择--------------', 'id': ''}]; 
+						$.each(data,function(i,v){
+							arr.push({ "name": v.name, "id": v.id });
+						 }); 
+		                $("#identity").combobox("loadData", arr);
+					}
 				});
 				
 				// 获取所有角色信息，生成checkbox列表
@@ -87,8 +123,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 				});
 				
 				
-				
-				
 				function undo(){
 					$("#form").form('clear');
 					$("#grid").datagrid('reload');
@@ -96,6 +130,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					parent.layer.msg("您取消了添加操作");
 				}
 			});
+			
 			
 			function checkUsername(){
 				var username = $("#username").val();
@@ -112,13 +147,12 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 <body class="easyui-layout" style="visibility:hidden;">
 		<div region="north" style="height:31px;overflow:hidden;" split="false" border="false">
 			<div class="datagrid-toolbar">
-				<a id="undo" icon="icon-undo" href="#" class="easyui-linkbutton" plain="true">返回</a>
 				<a id="save" icon="icon-save" href="#" class="easyui-linkbutton" plain="true">保存</a>
 				<span><font id="errorId" color='red'>${data.obj.msg}</font></span>
 			</div>
 		</div>
 		<div region="center" style="overflow:auto;padding:5px;" border="false">
-			<form id="form" method="post" action="../../user_save.action"> 
+			<form id="form" method="post"> 
 				<table class="table-edit" width="95%" align="center">
 					<tr class="title">
 						<td colspan="4">基本信息</td>
@@ -126,23 +160,23 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<tr>
 						<td>登录账号</td>
 						<td>
-							<input id="username" name="username" type="text"   class="easyui-validatebox" required="true" disabled="disabled" />
+							<input id="username" name="username" value="${user.username}" type="text" class="easyui-validatebox" required="true" readonly="readonly" />
 						</td>
 						<td>登录密码</td>
 						<td>
-							<input id="password" name="password" type="text"   class="easyui-validatebox" required="true" validType="minLength[5]" />
+							<input id="password" name="password" value="${user.password}" type="text" class="easyui-validatebox" required="true" validType="minLength[5]" />
 						</td>
 					</tr>
 					
 					<tr>
 						<td>真实姓名</td>
 						<td>
-							<input id="nickName" name="nickName" type="text"   class="easyui-validatebox" required="true" />
+							<input id="nickName" name="nickName"  value="${user.nickName}" type="text" class="easyui-validatebox" required="true" />
 						</td>
 						
 						<td>身份证号</td>
 						<td>
-							<input id="cord" name="cord" type="text" class="easyui-numberbox" required="true" disabled="disabled" />
+							<input id="cord" name="cord" type="text" class="easyui-validatebox" required="true" readonly="readonly" />
 						</td>
 					</tr>
 					
@@ -154,30 +188,19 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 					<tr>
 						<td>用户身份</td>
 						<td>
-							<select name="station" id="station" class="easyui-combobox" style="width: 175px;">
-								<option value="">请选择</option>
-								<option value="总公司">总公司</option>
-								<option value="分公司">分公司</option>
-								<option value="厅点">厅点</option>
-								<option value="基地运转中心">基地运转中心</option>
-								<option value="营业所">营业所</option>
-							</select>
+							 <input id="identity" name="identity" class="easyui-combobox" style="width: 175px;" data-options="valueField:'id', textField:'name', panelHeight:'auto'"></input>
 						</td>
 						<td>所在部门</td>
-						<td>
-							<select name="station" id="station" class="easyui-combobox" style="width: 175px;">
-								<option value="">请选择</option>
-								<option value="总公司">总公司</option>
-								<option value="分公司">分公司</option>
-								<option value="厅点">厅点</option>
-								<option value="基地运转中心">基地运转中心</option>
-								<option value="营业所">营业所</option>
-							</select>
+						 <td>
+							 <input id="level" name="level" class="easyui-combobox" style="width: 175px;" data-options="valueField:'id', textField:'name', panelHeight:'auto'"></input>
 						</td>
+							
 					</tr>
 					<tr>
 						<td>赋予角色</td>
-						<td id="roleTD" colspan="3"></td>
+						<td id="roleTD" colspan="3">
+							<input type='radio' name='roleIds' value="">无</input>
+						</td>
 					</tr>
 					
 					<tr class="title">
@@ -189,37 +212,33 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 						<td>
 							<input id="email" name="email" type="text" class="easyui-validatebox" validType='email' required="true" />
 						</td>
-						<td>用户生日</td>
-						<td>
-							<input id="birthday" name="birthday" type="text" class="easyui-validatebox" disabled="disabled" />
-						</td>
 					</tr>
 					
 					<tr>
 						<td>用户性别</td>
 						<td>
-							<input type="radio" name="sex" value="1" >男
-							<input type="radio" name="sex" value="0" >女
+							<input id="man" type="radio" name="sex" value="1" >男
+							<input id="woman" type="radio" name="sex" value="0" >女
 						</td>
 						<td>用户地址</td>
 						<td>
-							<input id="address" name="address" type="text" class="easyui-validatebox"  style="width: 570px;"/>
+							<input id="address" name="address" type="text" class="easyui-validatebox" style="width: 330px;"/>
 						</td>
 					</tr>
 					<tr>
 						<td>联系电话一</td>
 						<td>
-							<input id="telephoneA" name="telephoneA" type="text"   class="easyui-validatebox" required="true" />
+							<input id="telephoneA" name="telephoneA" type="text" class="easyui-validatebox" required="true" />
 						</td>
 						<td>联系电话二</td>
 						<td>
-							<input id="telephoneB" name="telephoneB" type="text"   class="easyui-validatebox"/>
+							<input id="telephoneB" name="telephoneB" type="text" class="easyui-validatebox"/>
 						</td>
 					</tr>
 					<tr>
 						<td>备注:</td>
 						<td colspan="3">
-							<textarea style="width:750px;height:150px"></textarea>
+							<textarea id="description" name="description" style="width:750px;height:150px" required="true"></textarea>
 						</td>
 					</tr>
 				</table>

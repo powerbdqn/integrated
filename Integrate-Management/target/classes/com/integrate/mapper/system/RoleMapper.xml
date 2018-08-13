@@ -33,7 +33,7 @@
   </select>
   
   <select id="getRoleListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  	SELECT r.* 
+  	SELECT DISTINCT r.* 
   	FROM role r,USER u,user_role ur 
   	WHERE r.id = ur.ROLE_ID 
   	AND u.id = ur.USER_ID 

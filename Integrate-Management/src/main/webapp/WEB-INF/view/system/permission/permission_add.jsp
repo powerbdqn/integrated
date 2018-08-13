@@ -21,7 +21,7 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<form id="permissionForm" method="post" action="${pageContext.request.contextPath}/permission/permission_save.do" style="padding:30px;">
 		<input type="hidden" name="id" value="${permission.id}" class="easyui-validatebox" style="margin-bottom:10px" />
 		<label>权限名称</label>	
-		<input type="text" name="name" value="${permission.name}" class="easyui-validatebox" data-options="required:true" style="margin-bottom:10px"/><br/>
+		<input type="text" name="level.name" value="${permission.name}" class="easyui-validatebox" data-options="required:true" style="margin-bottom:10px"/><br/>
 		<label>关键 字</label>
 		<input type="text" name="keyword"  value="${permission.keyword}" class="easyui-validatebox" data-options="required:true" style="margin-left:10px;margin-bottom:10px"/><br/>
 		<label>描述</label>	

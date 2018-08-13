@@ -21,7 +21,7 @@
   </sql>
     
   <select id="listMenus" resultMap="BaseResultMap">
-    select 
+    select DISTINCT
     <include refid="Base_Column_List" />
     from menu
     where status = '1'
@@ -53,7 +53,7 @@
   
   
   <select id="findMenusByPid" parameterType="java.lang.Integer"  resultMap="BaseResultMap">
-    select 
+    select DISTINCT
     <include refid="Base_Column_List" />
     from menu
     where  pid is null
@@ -62,13 +62,13 @@
   </select>
   
    <select id="findMenuByPid" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-    SELECT * FROM menu WHERE pid =(SELECT id FROM menu WHERE pid IS NULL AND id = #{pid,jdbcType=INTEGER})
+    SELECT DISTINCT * FROM menu WHERE pid =(SELECT id FROM menu WHERE pid IS NULL AND id = #{pid,jdbcType=INTEGER})
   	and status = '1'
   	and prohibition = '1'
   </select>
   
   <select id="getMenusByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-	SELECT m.* 
+	SELECT DISTINCT m.* 
   	FROM menu m, role r,USER u,user_role ur,role_menu rm 
 	WHERE m.ID = rm.menu_id 
 	AND r.ID = rm.ROLE_ID 
@@ -80,7 +80,7 @@
   </select>
   
   <select id="getParentMenuNameByPid" parameterType="java.lang.Integer" resultType="java.lang.String">
-  	SELECT title FROM menu WHERE pid IS NULL AND id = #{pid,jdbcType=INTEGER}
+  	SELECT DISTINCT title FROM menu WHERE pid IS NULL AND id = #{pid,jdbcType=INTEGER}
   	and status = '1' and prohibition = '1'
   </select>
   
@@ -101,7 +101,7 @@
   </insert>
   
   <select id="findMenuById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-	select 
+	select DISTINCT
     	<include refid="Base_Column_List" />
     from menu
     where id = #{id,jdbcType=INTEGER}

@@ -18,9 +18,6 @@ String basePath = request.getScheme() + "://" + request.getServerName() + ":" + 
 	<script type="text/javascript" src="<%=basePath%>static/easyui/jquery-1.8.3.js"></script>
 	<script type="text/javascript" src="<%=basePath%>static/easyui/jquery.easyui.min.js"></script>
 	<script type="text/javascript" src="<%=basePath%>static/ztree/jquery.ztree.all-3.5.js" ></script>
-	<style>
-		
-	</style>
 </head>
 <body >
 	<form id="menuForm" method="post" action="${pageContext.request.contextPath}/menu/menu_save.do" style="padding:30px;">

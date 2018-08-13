@@ -39,16 +39,56 @@ public class User {
 
     private Date modifyTime;
 
+    private String address;
+    
+    private String sex;
+    
+    private String description;
     
     private Set<Role> roles = new HashSet<Role>(0);
     
     public Set<Role> getRoles() {
 		return roles;
 	}
+    
 
 	public void setRoles(Set<Role> roles) {
 		this.roles = roles;
 	}
+	public String getAddress() {
+		return address;
+	}
+
+
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+
+
+	public String getSex() {
+		return sex;
+	}
+
+
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+
+
+	public String getDescription() {
+		return description;
+	}
+
+
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 
 	public Integer getId() {
         return id;

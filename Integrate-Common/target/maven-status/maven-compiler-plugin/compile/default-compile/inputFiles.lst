@@ -1,5 +1,6 @@
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\tool\MyConstants.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\dictionaries\Books.java
+D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\config\Identity.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\dictionaries\Stage.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\VO\ReturnMap.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\tool\MapTool.java
@@ -10,9 +11,11 @@ D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integra
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\system\RoleAndMenuKey.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\system\Permission.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\question\Question.java
+D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\config\Level.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\dictionaries\Chapter.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\dictionaries\QuestionTypes.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\system\RoleAndPermissionKey.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\system\Menu.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\tool\CheckCard.java
 D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\tool\HttpUtil.java
+D:\eclipse-workspace\Integrate-Parent\Integrate-Common\src\main\java\com\integrate\pojo\system\UserAndRoleKey.java

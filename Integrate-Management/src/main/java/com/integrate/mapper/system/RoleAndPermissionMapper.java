@@ -5,9 +5,9 @@ import com.integrate.pojo.system.RoleAndPermissionKey;
 public interface RoleAndPermissionMapper {
     int deleteByPrimaryKey(RoleAndPermissionKey key);
 
-    int insert(RoleAndPermissionKey record);
+	int insert(RoleAndPermissionKey record);
 
-    int insertSelective(RoleAndPermissionKey record);
+	int insertSelective(RoleAndPermissionKey record);
 
 	void updatePermissionIdByRoleId(RoleAndPermissionKey bpk);
 }

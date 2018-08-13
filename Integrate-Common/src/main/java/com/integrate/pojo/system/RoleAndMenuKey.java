@@ -5,6 +5,8 @@ public class RoleAndMenuKey {
 
     private Integer menuId;
 
+    private Integer id;
+
     public Integer getRoleId() {
         return roleId;
     }
@@ -19,5 +21,13 @@ public class RoleAndMenuKey {
 
     public void setMenuId(Integer menuId) {
         this.menuId = menuId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

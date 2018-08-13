@@ -5,6 +5,8 @@ public class RoleAndPermissionKey {
 
     private Integer permissionId;
 
+    private Integer id;
+
     public Integer getRoleId() {
         return roleId;
     }
@@ -19,5 +21,13 @@ public class RoleAndPermissionKey {
 
     public void setPermissionId(Integer permissionId) {
         this.permissionId = permissionId;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

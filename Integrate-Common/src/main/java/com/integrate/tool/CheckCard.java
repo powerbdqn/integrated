@@ -1,10 +1,9 @@
 package com.integrate.tool;
 
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpResponse;
@@ -56,8 +55,6 @@ public class CheckCard {
 				user.setUsername("bdqn" + RandomStringUtils.randomNumeric(4));
 				user.setPassword("bdqn" + RandomStringUtils.randomNumeric(2) + birthday.toString().replace("-", ""));
 				user.setMsg("温馨提示:您的密码由系统随机匹配,或可根据您的意愿自行填写");
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				user.setBirthday(sdf.parse(birthday.toString()));
 				user.setAddress(area.toString());
 				if("男".equals(sex.toString())) {
 					user.setSex("1");

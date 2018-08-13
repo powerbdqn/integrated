@@ -19,7 +19,7 @@
   </sql>
   
   <select id="getPermissionListByUserId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
-  	SELECT p.* 
+  	SELECT DISTINCT p.* 
   	FROM permission p, role r,USER u,user_role ur,role_permission rp 
 	WHERE p.ID = rp.PERMISSION_ID 
 	AND r.ID = rp.ROLE_ID 
@@ -38,7 +38,7 @@
   
   
   <select id="findPermissionByRoleId" parameterType="java.lang.Integer" resultMap = "BaseResultMap">
-    SELECT p.*
+    SELECT DISTINCT p.*
 	FROM permission p ,role r,role_permission rp
 	WHERE rp.role_id = r.`id`
 	AND rp.permission_id = p.`id`

@@ -19,18 +19,68 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="modify_user" jdbcType="VARCHAR" property="modifyUser" />
     <result column="modify_time" jdbcType="TIMESTAMP" property="modifyTime" />
+    <result column="address" jdbcType="VARCHAR" property="address" />
+    <result column="sex" jdbcType="VARCHAR" property="sex" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
   </resultMap>
   <sql id="Base_Column_List">
     id, username, password, nick_name, cord, telephone_a, telephone_b, email,birthday, identity, 
-    level, prohibition, status, create_user, create_time, modify_user, modify_time
+    level, prohibition, status, create_user, create_time, modify_user, modify_time,address,sex,description
   </sql>
+
+  <update id="updateUserByPrimaryKey" parameterType="com.integrate.pojo.system.User">
+    update user
+    set username = #{username,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      cord = #{cord,jdbcType=VARCHAR},
+      telephone_a = #{telephoneA,jdbcType=VARCHAR},
+      telephone_b = #{telephoneB,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      birthday = #{birthday,jdbcType=TIMESTAMP},
+      identity = #{identity,jdbcType=VARCHAR},
+      level = #{level,jdbcType=VARCHAR},
+      prohibition = #{prohibition,jdbcType=VARCHAR},
+      status = #{status,jdbcType=VARCHAR},
+      create_user = #{createUser,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      modify_user = #{modifyUser,jdbcType=VARCHAR},
+      modify_time = #{modifyTime,jdbcType=TIMESTAMP},
+      description = #{description,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
   
+  <insert id="insertUser" keyProperty="id" useGeneratedKeys="true" parameterType="com.integrate.pojo.system.User">
+    insert into user (id, username, password, 
+      nick_name, cord, telephone_a, 
+      telephone_b, email, birthday, 
+      identity, level, prohibition, 
+      status, create_user, create_time, 
+      modify_user, modify_time, description, 
+      address, sex)
+    values (#{id,jdbcType=INTEGER}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{nickName,jdbcType=VARCHAR}, #{cord,jdbcType=VARCHAR}, #{telephoneA,jdbcType=VARCHAR}, 
+      #{telephoneB,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{birthday,jdbcType=TIMESTAMP}, 
+      #{identity,jdbcType=VARCHAR}, #{level,jdbcType=VARCHAR}, #{prohibition,jdbcType=VARCHAR}, 
+      #{status,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{modifyUser,jdbcType=VARCHAR}, #{modifyTime,jdbcType=TIMESTAMP}, #{description,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{sex,jdbcType=VARCHAR})
+  </insert>
   
    <select id="findByUsername" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from user
     where username = #{username,jdbcType=VARCHAR}
+  </select>
+  
+  <select id="checkUserCard" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from user
+    where cord = #{cord,jdbcType=VARCHAR}
   </select>
   
   <select id="listUsers" resultMap="BaseResultMap">
